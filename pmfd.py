@@ -7,11 +7,11 @@ def main():
 
     if os.geteuid() != 0:
         print("Error: Please run the program as root", file=sys.stderr)
-        print("Usage: sudo ./ALPS.py <package> [package2 ...]", file=sys.stderr)
+        print("Usage: sudo ./pmfd.py <package> [package2 ...]", file=sys.stderr)
         sys.exit(1)
     if len(sys.argv) < 2:
         print("Error: Please enter a package name ", file=sys.stderr)
-        print("Usage: sudo ./ALPS.py <package> [package2 ...]", file=sys.stderr)
+        print("Usage: sudo ./pmfd.py <package> [package2 ...]", file=sys.stderr)
         sys.exit(1)
     #Package managers
     packages = sys.argv[1:]
