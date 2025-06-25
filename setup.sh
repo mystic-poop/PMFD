@@ -21,3 +21,6 @@ else
         echo "Setup completed successfully. Please restart your computer for better experience."
     fi
 fi
+#Make shortcut for console
+sudo curl -L https://raw.githubusercontent.com/mystic-poop/PMFD/main/pmfd.py -o /usr/local/bin/pmfd
+sudo chmod +x /usr/local/bin/pmfd
