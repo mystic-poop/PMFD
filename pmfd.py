@@ -4,10 +4,19 @@ import os
 import sys
 
 def main():
-
+    if sys.argv == "update-all":
+        print("Updating Apt packages...")
+        subprocess.run("apt","update")
+        subprocess.run("apt","upgrade")
+        print("Done! Now updating snap...")
+        subprocess.run("sudo snap refresh")
+        print("Done! Updating Flatpak...")
+        subprocces.run("flatpak update")
+        print("All set! please reboot your pc for better performance and experience")
     if os.geteuid() != 0:
         print("Error: Please run the program as root", file=sys.stderr)
         print("Usage: sudo ./pmfd.py <package> [package2 ...]", file=sys.stderr)
+        print("Arguments: update-all")
         sys.exit(1)
     if len(sys.argv) < 2:
         print("Error: Please enter a package name ", file=sys.stderr)
@@ -22,7 +31,7 @@ def main():
         ("Aptitude", ["aptitude", "install", "-y"]),
         ("Flatpak", ["flatpak", "install", "-y", "--user"])
     ]
-    
+
     failed_packages = []
    #Download part 
     for package in packages:
@@ -30,10 +39,10 @@ def main():
         print(f"\n{'='*50}")
         print(f"{package} is downloading")
         print(f"{'='*50}")
-        
+
         for manager, cmd_base in commands:
             cmd = cmd_base + [package]
-            
+
             try:
                 print(f"[{manager}] Trying: {' '.join(cmd)}")
                 result = subprocess.run(
@@ -49,7 +58,7 @@ def main():
                     print(f"Reslts: {result.stdout.strip()[:200]}...")
                 success = True
                 break
-                
+
             except FileNotFoundError:
                 print(f"✗ [{manager}] Not found!")
             except subprocess.CalledProcessError as e:
@@ -70,7 +79,7 @@ def main():
                 success = True
             except Exception as e:
                 print(f"✗ [dpkg] ERROR: {str(e)[:200]}")
-        
+
         if not success:
             print(f"\n❌ Cannot find the: {package}")
             failed_packages.append(package)
@@ -87,3 +96,4 @@ def main():
 
 if __name__ == "__main__":
     main()
+    
